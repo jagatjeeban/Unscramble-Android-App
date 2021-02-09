@@ -18,9 +18,8 @@ package com.example.android.unscramble.ui.game
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,13 +40,15 @@ class GameFragment : Fragment() {
     // Binding object instance with access to the views in the game_fragment.xml layout
     private lateinit var binding: GameFragmentBinding
 
-    // Create a ViewModel the first time the fragment is created.
-    // If the fragment is re-created, it receives the same GameViewModel instance created by the
-    // first fragment
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
         // Inflate the layout XML file and return a binding object instance
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
@@ -71,6 +72,8 @@ class GameFragment : Fragment() {
         // Setup a click listener for the Submit and Skip buttons.
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
+
+
         // Update the UI
         //updateNextWordOnScreen()
         //OBSERVERS :
@@ -122,8 +125,46 @@ class GameFragment : Fragment() {
         } else {
             showFinalScoreDialog()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.hints_menu, menu)
+
+        val hintsButton = menu.findItem(R.id.word_hint)
+        setIcon(hintsButton)
 
 
+    }
+
+    private fun setIcon(menuItem: MenuItem?){
+        if (menuItem == null){
+            return
+        }
+        menuItem.icon = ContextCompat.getDrawable(this.requireContext(),R.drawable.ic_word_hint)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.word_hint ->{
+
+                setIcon(item)
+                showWordAlertDialogue()
+
+              return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    }
+    private fun showWordAlertDialogue(){
+        MaterialAlertDialogBuilder(requireContext())
+                .setTitle("It's OK!")
+                .setMessage("Word is ${viewModel.currentWord}")
+                .setCancelable(false)
+
+                .setPositiveButton("Resume")
+                { _,_ -> onSkipWord() }.show()
     }
 
     /*

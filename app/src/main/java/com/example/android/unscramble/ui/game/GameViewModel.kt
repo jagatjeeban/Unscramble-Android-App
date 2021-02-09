@@ -11,7 +11,7 @@ class GameViewModel : ViewModel() {
     private val _currentWordCount = MutableLiveData(0)
     private val _currentScrambledWord = MutableLiveData<String>()
     private var wordsList: MutableList<String> = mutableListOf()
-    private lateinit var currentWord: String
+    private lateinit var _currentWord: String
 
     //BACKING PROPERTY ->
     val currentScrambledWord: LiveData<String>
@@ -23,6 +23,9 @@ class GameViewModel : ViewModel() {
     val currentWordCount: MutableLiveData<Int>
         get() = _currentWordCount
 
+    val currentWord:String
+        get() = _currentWord
+
     init {
         Log.d("GameFragment", "GameViewModel created!")
         getNextWord()
@@ -30,14 +33,14 @@ class GameViewModel : ViewModel() {
 
 
     private fun getNextWord() {
-        currentWord = allWordsList.random()
-        val tempWord = currentWord.toCharArray()
+        _currentWord = allWordsList.random()
+        val tempWord = _currentWord.toCharArray()
         tempWord.shuffle()
 
-        while (tempWord.toString().equals(currentWord, false)) {
+        while (tempWord.toString().equals(_currentWord, false)) {
             tempWord.shuffle()
         }
-        if (wordsList.contains(currentWord)) {
+        if (wordsList.contains(_currentWord)) {
             getNextWord()
         } else {
 
@@ -47,7 +50,7 @@ class GameViewModel : ViewModel() {
 
             // inc() method is used to increment the value of _currentWordCount by one
             _currentWordCount.value = (_currentWordCount.value)?.inc()
-            wordsList.add(currentWord)
+            wordsList.add(_currentWord)
 
         }
     }
@@ -65,7 +68,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun isWordCorrect(playerWord: String): Boolean {
-        if (playerWord.equals(currentWord, true)) {
+        if (playerWord.equals(_currentWord, true)) {
             increaseScore()
             return true
         }
