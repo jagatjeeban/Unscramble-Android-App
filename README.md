@@ -10,9 +10,6 @@ Used in the [Android Basics with Kotlin](https://developer.android
 .com/courses/android-basics-kotlin/course) course.
 
 # User Interface
-![Screenshot_2021-03-10-15-33-59-095_com example android unscramble](https://user-images.githubusercontent.com/73837684/110613222-05b9e800-81b7-11eb-96cd-a8393296af9a.jpg) 
-![Screenshot_2021-03-10-15-35-16-933_com example android unscramble](https://user-images.githubusercontent.com/73837684/110613229-08b4d880-81b7-11eb-9b04-cd6abd9f8c95.jpg)  
-![Screenshot_2021-03-10-15-35-39-819_com example android unscramble](https://user-images.githubusercontent.com/73837684/110613238-0ce0f600-81b7-11eb-8689-aff6de588c01.jpg)
 
 
 Pre-requisites
